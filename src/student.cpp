@@ -105,24 +105,23 @@ void clear(Stack& s) {
 
 // SOAL 4
 bool kurungSeimbang(const string& ekspresi) {
-    Stack s;
-    inisialisasi(s);
-
+    string pembuka;
     for (char c : ekspresi) {
         if (c == '(' || c == '{' || c == '[') {
-            push(s, c);
+            pembuka.push_back(c);
         } else if (c == ')' || c == '}' || c == ']') {
-            int topChar;
-            if (!pop(s, topChar)) {
-                return false; 
+            if (pembuka.empty()) return false;
+
+            char last = pembuka.back();
+            if ((c == ')' && last != '(') ||
+                (c == '}' && last != '{') ||
+                (c == ']' && last != '[')) {
+                return false;
             }
-            if ((c == ')' && topChar != '(') ||
-                (c == '}' && topChar != '{') ||
-                (c == ']' && topChar != '[')) {
-                return false; 
-            }
+            pembuka.pop_back();
         }
     }
+    return pembuka.empty();
 }
 
 // =============================================================================
